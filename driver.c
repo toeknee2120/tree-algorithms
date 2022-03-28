@@ -9,7 +9,7 @@
 #include "priorityQueue.h"
 
 /* IMPORTANT: parameters to adjust AVL TREE testing and student feedback  */
-#define MAX_VALUE 27             /* try using 27 for smaller testing; Try 77031 for larger testing */
+#define MAX_VALUE 77031             /* try using 27 for smaller testing; Try 77031 for larger testing */
 #define PRINT_AVL_TREE false     /* set to true to enable printing on AVL trees after inserting all of the data */
 #define PRINT_AVL_ERRORS false   /* set to true to enable printing additional details about errors in your AVL tree balance */
 

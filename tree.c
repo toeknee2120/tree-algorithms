@@ -506,6 +506,30 @@ TNode* constructSegmentTree( double* points, int low, int high ){
  */
 void insertSegment( TNode* root, double segmentStart, double segmentEnd ){
     //TODO
+    // (1) go down the segment tree starting at the root
+    
+    
+    //(2) If the root is NULL, return.
+    if ( root == NULL){
+        return;
+    }
+    else if ( segmentEnd < root->low || segmentStart > root->high ){
+    // (3) Else if the given segment is completely to the left or right of the current node’s range,
+    // return.
+            return;
+    }
+    else if( segmentStart <= root->low && segmentEnd >= root->high ) {
+    // (4) Else if the given segment completely covers the range represented by this node: increase
+    // cnt by 1 and return.
+        root->cnt += 1;
+        return;
+
+    }else{
+    // (5) Else: Recursively call insertSegment on the left and right children of this node.
+        insertSegment(root->pLeft, segmentStart, segmentEnd);
+        insertSegment(root->pRight, segmentStart, segmentEnd);
+    }
+
 
 }
 
@@ -517,6 +541,26 @@ void insertSegment( TNode* root, double segmentStart, double segmentEnd ){
  */
 int lineStabQuery( TNode* root, double queryPoint ){
     //TODO
+    // (1) Go down the segment tree starting at the root
+    int left_sum;
+    int right_sum;
+
+    if ( root == NULL)
+        // (2) If the root is NULL, return 0.
+        return 0;
+    else if ( queryPoint < root->low || queryPoint > root->high )
+        // (3) Else if the queryPoint is completely to the left or right of the current node’s range:
+        // return 0.
+        return 0;
+    else{
+        // (4) Else: Recursively call lineStabQuery on the left and right children of this node. Return
+        // the sum of their return values and current node’s cnt.
+        left_sum = lineStabQuery(root->pLeft,queryPoint);
+        right_sum = lineStabQuery(root->pRight,queryPoint);
+
+        return ( left_sum + right_sum + root->cnt);
+    }
+
 
     return -1;
 }

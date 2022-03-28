@@ -294,8 +294,52 @@ void updateHeights(TNode* root){
  * For additional help in testing set the parameters PRINT_AVL_TREE and PRINT_AVL_ERRORS to true in the driver
  */
 void rebalanceTree(Tree* t, TNode* x){
-    //TODO
+    int balance;
+    TNode* z;
 
+    while ( x != NULL ){
+        balance = getBalance(x);
+
+        // 1 if the balance of x is <= -2 or >= 2
+        if (balance <= -2 || balance >= 2){
+            // (i) Set z equal to the child of x with the greater height
+            z = getTallerSubTree(x);
+            
+            // (ii) if the balance of x and the balance of z have DIFFERENT signs
+            if (!isSameSignBalance(x, z)){
+                
+                // (A) if the sign of the balance of z is +, right rotate on z
+                if (getBalance(z) > 0){ //TODO: does "positive" mean >= 0?
+                    if (z->pLeft != NULL)
+                        rightRotate(t,z);
+                }
+                else{
+                    // (B) otherwiase, the balance is -, so rotate left on z
+                    if (z->pRight != NULL)
+                        leftRotate(t,z);
+                }
+            }
+            else{
+                // (iii) if the balance of x >=2, right rotate on x
+                if (getBalance(x) >= 2){
+                    if (x->pLeft != NULL)
+                        rightRotate(t,x);
+                }
+                else{
+                    // (iv) otherwise the balance is <= -2 so left rotate on x
+                    if (x->pRight != NULL)
+                        leftRotate(t,x);
+                }
+
+            }
+        }
+
+        // 2 set x equal to the parent of x
+        else{
+            x = x->pParent;
+        }
+
+    }
 }
 
 /* rightRotate and leftRotate
@@ -562,4 +606,26 @@ void printTreeByType( Tree* t, TNode* root, int depth ){
         printTreeByType( t, root->pLeft, depth+1 );
 
     }
+}
+
+
+
+/*
+    Returns the taller subtree
+*/
+TNode* getTallerSubTree(TNode* root){
+    if ( subTreeHeight(root->pLeft) > subTreeHeight(root->pRight))
+        return root->pLeft;
+    else
+        return root->pRight;
+}
+
+bool isSameSignBalance(TNode* x, TNode* z){
+    if ( 
+        (getBalance(x) >= 0 && getBalance(z) >= 0) ||
+        (getBalance(x) <= 0 && getBalance(z) <= 0)
+    )
+        return true;
+    else
+        return false;
 }

@@ -403,6 +403,32 @@ int getBalance(TNode* root){
  */
 void printHuffmanEncoding( TNode* root, char c ){
 
+    if ( root != NULL){
+
+        //check myself
+        if ( strcmp(root->str, &c) == 0 ){
+            return;
+        }
+
+
+        //check the left side
+        if ( (root->pLeft != NULL) && (strchr(root->pLeft->str, c) != NULL) )
+        {
+            printf("0");
+            printHuffmanEncoding(root->pLeft, c);
+        }
+        
+        //check the right side
+        if ( (root->pLeft != NULL) && (strchr(root->pRight->str, c) != NULL) )
+        {
+            printf("1");
+            printHuffmanEncoding(root->pRight, c);
+        }
+
+    }
+
+
+ 
 
 }
 
